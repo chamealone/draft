@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spirit Veggie Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff7e5;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .option-button {
+      display: block;
+      width: 100%;
+      background-color: #bef264;
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .option-button:hover {
+      background-color: #a3e635;
+    }
+    .result p {
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="quiz"></div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "Saat kamu overwhelmed, kamu biasanya...", o: ["Menarik diri", "Ngegas", "Nangis", "Ngelawak"] },
+      { q: "Kamu pengen orang lain...", o: ["Dengerin kamu", "Gak ganggu kamu", "Ikut semangat kamu", "Nurut aja"] },
+      { q: "Emosi mana yang paling susah kamu kontrol?", o: ["Marah", "Sedih", "Takut", "Apatis"] },
+      { q: "Saat semuanya terasa berat, kamu butuh...", o: ["Dipeluk", "Dikuatkan", "Dijaga", "Didengerin"] },
+      { q: "Kamu lebih suka...", o: ["Waktu sendiri", "Ngobrol panjang", "Cuddle", "Lari ke hutan"] },
+      { q: "Orang lain mengira kamu itu...", o: ["Keras kepala", "Cuek", "Gampang baper", "Kalem"] },
+      { q: "Saat temanmu lagi down, kamu akan...", o: ["Bercandain", "Dengerin", "Ngajakin main", "Nasehatin"] },
+      { q: "Kamu pengen bisa lebih...", o: ["Disiplin", "Optimis", "Nyantai", "Terbuka"] },
+      { q: "Saat gak ada yang paham kamu, kamu...", o: ["Ngelucu", "Nangis diem-diem", "Pergi jauh", "Tulis diary"] },
+      { q: "Kamu nyaman saat...", o: ["Gak dituntut", "Dihargai", "Bisa jaga orang", "Bisa kontrol situasi"] },
+      { q: "Kamu gampang...", o: ["Overthinking", "Kebawa suasana", "Perfeksionis", "Menyayangi orang"] },
+      { q: "Kalau kamu jadi spirit veggie, kamu ingin...", o: ["Jago healing", "Anti-ghosting", "Ceria & lucu", "Punya wisdom"] },
+      { q: "Kamu ngerasa paling kuat saat...", o: ["Dapet istirahat", "Punya misi bantu orang", "Bisa menghibur", "Bisa mikir jernih"] },
+      { q: "Kamu paling sebel sama orang yang...", o: ["Drama banget", "Terlalu bodo amat", "Terlalu idealis", "Gak punya arah"] },
+      { q: "Saat kamu gagal, kamu biasanya...", o: ["Gak peduli", "Overfeel", "Cari makna", "Butuh semangat"] },
+      { q: "Kamu butuh teman yang bisa...", o: ["Jujur ke kamu", "Bikin kamu ketawa", "Peluk kamu", "Jaga kamu"] }
+    ];
+
+    const spirits = [
+      {
+        name: "Kroot",
+        personality: "Tsundere, sok cuek tapi perhatian, bantu saat kamu goyah",
+        ability: "Stabilizer Root",
+        cocok: "Orang yang suka pura-pura kuat tapi sebenarnya butuh pegangan",
+        friend: "Bitty",
+        enemy: "-"
+      },
+      {
+        name: "Banion",
+        personality: "Intuitif, ekspresif, dan ngasih ruang buat kamu lega",
+        ability: "Emotional Drain",
+        cocok: "Orang yang sering nyimpen emosi sendiri",
+        friend: "Mubii",
+        enemy: "Onyun"
+      },
+      {
+        name: "Potatoad",
+        personality: "Gemes, chill, ngajarin kamu bahwa istirahat itu bukan dosa",
+        ability: "Power Napper",
+        cocok: "Orang yang suka overwork dan lupa rehat",
+        friend: "Onyun",
+        enemy: "-"
+      },
+      {
+        name: "Mubii",
+        personality: "Anti-drama, diem-diem supportif, bikin kamu lebih rileks",
+        ability: "Toxic Repeller",
+        cocok: "Orang yang gampang kehisap energi negatif",
+        friend: "Jinger",
+        enemy: "-"
+      },
+      {
+        name: "Onyun",
+        personality: "Overprotective, aktif, gampang kesel kalau kamu disakiti",
+        ability: "Loyal Shield",
+        cocok: "Orang yang butuh dibela dan dijaga",
+        friend: "Potatoad",
+        enemy: "Banion"
+      },
+      {
+        name: "Bitty",
+        personality: "Ceria, penuh harapan, suaranya kecil tapi menghangatkan hati",
+        ability: "Hope Spark",
+        cocok: "Orang yang suka nyerah dan butuh semangat kecil",
+        friend: "Kroot",
+        enemy: "Jinger"
+      },
+      {
+        name: "Jinger",
+        personality: "Dewasa, agak sinis, ngajarin kamu untuk realistis dan kuat",
+        ability: "Wise Fire",
+        cocok: "Orang yang terlalu dreamy dan butuh realita",
+        friend: "Mubii",
+        enemy: "Bitty"
+      }
+    ];
+
+    let currentQ = 0;
+    let answers = [];
+
+    const quiz = document.getElementById("quiz");
+
+    function renderQuestion() {
+      const q = questions[currentQ];
+      quiz.innerHTML = `<h2>${q.q}</h2>` +
+        q.o.map((opt, i) => `<button class='option-button' onclick='answer(${i})'>${opt}</button>`).join("");
+    }
+
+    function answer(i) {
+      answers.push(i);
+      currentQ++;
+      if (currentQ < questions.length) {
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      const score = Array(spirits.length).fill(0);
+      answers.forEach((a, idx) => {
+        score[a % spirits.length]++;
+      });
+      const max = Math.max(...score);
+      const spirit = spirits[score.indexOf(max)];
+
+      quiz.innerHTML = `
+        <h2>Spirit Veggie Kamu: ${spirit.name}</h2>
+        <div class='result'>
+          <p><strong>Nama:</strong> ${spirit.name}</p>
+          <p><strong>Personality:</strong> ${spirit.personality}</p>
+          <p><strong>Ability:</strong> ${spirit.ability}</p>
+          <p><strong>Cocok untuk:</strong> ${spirit.cocok}</p>
+          <p><strong>Grounding Friend:</strong> ${spirit.friend}</p>
+          <p><strong>Enemies Spirit:</strong> ${spirit.enemy}</p>
+        </div>
+      `;
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
