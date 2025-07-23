@@ -3,177 +3,235 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spirit Veggie Quiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <title>Spirit Veggie Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka&family=Poppins&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #fff7e5;
-      margin: 0;
+      background-color: #fdf6e3;
+      color: #333;
       padding: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
     .container {
-      background: #fff;
-      border-radius: 20px;
-      padding: 2rem;
-      max-width: 500px;
-      width: 100%;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 0 auto;
     }
-    h2 {
+    h1 {
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+      text-align: center;
     }
-    .option-button {
+    .question {
+      margin-bottom: 2rem;
+    }
+    .options button {
       display: block;
       width: 100%;
-      background-color: #bef264;
-      border: none;
-      border-radius: 10px;
-      padding: 0.75rem;
-      margin-bottom: 0.75rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    .option-button:hover {
-      background-color: #a3e635;
-    }
-    .result p {
       margin: 0.5rem 0;
+      padding: 1rem;
+      background-color: #c3f73a;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    #result {
+      display: none;
+      background: #ffffffaa;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <h1>Which Spirit Veggie Guides You?</h1>
     <div id="quiz"></div>
+    <div id="result"></div>
   </div>
-
   <script>
-    const questions = [
-      { q: "Saat kamu overwhelmed, kamu biasanya...", o: ["Menarik diri", "Ngegas", "Nangis", "Ngelawak"] },
-      { q: "Kamu pengen orang lain...", o: ["Dengerin kamu", "Gak ganggu kamu", "Ikut semangat kamu", "Nurut aja"] },
-      { q: "Emosi mana yang paling susah kamu kontrol?", o: ["Marah", "Sedih", "Takut", "Apatis"] },
-      { q: "Saat semuanya terasa berat, kamu butuh...", o: ["Dipeluk", "Dikuatkan", "Dijaga", "Didengerin"] },
-      { q: "Kamu lebih suka...", o: ["Waktu sendiri", "Ngobrol panjang", "Cuddle", "Lari ke hutan"] },
-      { q: "Orang lain mengira kamu itu...", o: ["Keras kepala", "Cuek", "Gampang baper", "Kalem"] },
-      { q: "Saat temanmu lagi down, kamu akan...", o: ["Bercandain", "Dengerin", "Ngajakin main", "Nasehatin"] },
-      { q: "Kamu pengen bisa lebih...", o: ["Disiplin", "Optimis", "Nyantai", "Terbuka"] },
-      { q: "Saat gak ada yang paham kamu, kamu...", o: ["Ngelucu", "Nangis diem-diem", "Pergi jauh", "Tulis diary"] },
-      { q: "Kamu nyaman saat...", o: ["Gak dituntut", "Dihargai", "Bisa jaga orang", "Bisa kontrol situasi"] },
-      { q: "Kamu gampang...", o: ["Overthinking", "Kebawa suasana", "Perfeksionis", "Menyayangi orang"] },
-      { q: "Kalau kamu jadi spirit veggie, kamu ingin...", o: ["Jago healing", "Anti-ghosting", "Ceria & lucu", "Punya wisdom"] },
-      { q: "Kamu ngerasa paling kuat saat...", o: ["Dapet istirahat", "Punya misi bantu orang", "Bisa menghibur", "Bisa mikir jernih"] },
-      { q: "Kamu paling sebel sama orang yang...", o: ["Drama banget", "Terlalu bodo amat", "Terlalu idealis", "Gak punya arah"] },
-      { q: "Saat kamu gagal, kamu biasanya...", o: ["Gak peduli", "Overfeel", "Cari makna", "Butuh semangat"] },
-      { q: "Kamu butuh teman yang bisa...", o: ["Jujur ke kamu", "Bikin kamu ketawa", "Peluk kamu", "Jaga kamu"] }
-    ];
+    const spiritVeggies = {
+      'Kroot': {
+        name: 'Kroot',
+        personality: 'Tsundere grounding. Sok cuek, padahal peduli.',
+        ability: 'Membantu kamu tetap kokoh saat terombang-ambing.',
+        for: 'Kamu yang mudah goyah saat masalah datang.',
+        grounding: 'Potatoad',
+        enemy: 'Toxic Doubt'
+      },
+      'Banion': {
+        name: 'Banion',
+        personality: 'Suka usil, tapi tujuannya supaya kamu bisa nangis dan lega.',
+        ability: 'Menyeimbangkan emosimu lewat pelepasan air mata.',
+        for: 'Kamu yang sering memendam rasa.',
+        grounding: 'Mubii',
+        enemy: 'Toxic Positivity'
+      },
+      'Potatoad': {
+        name: 'Potatoad',
+        personality: 'Gemes, kalem, reminder hidup santai.',
+        ability: 'Mengajarkan pentingnya istirahat dan tidak overwork.',
+        for: 'Kamu yang selalu merasa harus produktif.',
+        grounding: 'Onyun',
+        enemy: 'Overachievement Pressure'
+      },
+      'Mubii': {
+        name: 'Mubii',
+        personality: 'Pendiam tapi bijak. Menjaga batas energi.',
+        ability: 'Menangkal energi negatif dari toxic people.',
+        for: 'Kamu yang gampang kecapekan karena sekitar.',
+        grounding: 'Banion',
+        enemy: 'Energi Toxic Sosial'
+      },
+      'Onyun': {
+        name: 'Onyun',
+        personality: 'Ceria tapi intuitif. Kayak anjing bawang yang bisa baca suasana.',
+        ability: 'Mendeteksi sinyal bahaya dari lingkungan.',
+        for: 'Kamu yang sering kebanyakan mikir dan lupa realita.',
+        grounding: 'Jinger',
+        enemy: 'Overthinking Fog'
+      },
+      'Bitty': {
+        name: 'Bitty',
+        personality: 'Cerewet tapi jujur. Kayak burung kecil tukang curhat.',
+        ability: 'Menolongmu mengeluarkan suara hati kecil.',
+        for: 'Kamu yang suka pura-pura kuat.',
+        grounding: 'Banion',
+        enemy: 'Silent Suppression'
+      },
+      'Jinger': {
+        name: 'Jinger',
+        personality: 'Lemah lembut tapi punya insting kuat. Kayak rusa yang peka.',
+        ability: 'Menghangatkan pikiran dingin dengan ketenangan batin.',
+        for: 'Kamu yang merasa lost dan dingin dalam batin.',
+        grounding: 'Kroot',
+        enemy: 'Inner Winter'
+      },
+    }
 
-    const spirits = [
+    const questions = [
       {
-        name: "Kroot",
-        personality: "Tsundere, sok cuek tapi perhatian, bantu saat kamu goyah",
-        ability: "Stabilizer Root",
-        cocok: "Orang yang suka pura-pura kuat tapi sebenarnya butuh pegangan",
-        friend: "Bitty",
-        enemy: "-"
+        q: "Kamu merasa paling berat saat...",
+        o: ['Gak tau harus percaya siapa', 'Gak boleh nangis terus', 'Gak bisa stop kerja', 'Orang-orang nyedot energiku']
       },
       {
-        name: "Banion",
-        personality: "Intuitif, ekspresif, dan ngasih ruang buat kamu lega",
-        ability: "Emotional Drain",
-        cocok: "Orang yang sering nyimpen emosi sendiri",
-        friend: "Mubii",
-        enemy: "Onyun"
+        q: "Kalau lagi galau, kamu cenderung...",
+        o: ['Menghilang dari semuanya', 'Nonton film biar nangis', 'Cari kerjaan biar lupa', 'Merenung sendirian']
       },
       {
-        name: "Potatoad",
-        personality: "Gemes, chill, ngajarin kamu bahwa istirahat itu bukan dosa",
-        ability: "Power Napper",
-        cocok: "Orang yang suka overwork dan lupa rehat",
-        friend: "Onyun",
-        enemy: "-"
+        q: "Satu kata yang menggambarkan kamu:",
+        o: ['Goyah', 'Pekewuh', 'Overwork', 'Sensi']
       },
       {
-        name: "Mubii",
-        personality: "Anti-drama, diem-diem supportif, bikin kamu lebih rileks",
-        ability: "Toxic Repeller",
-        cocok: "Orang yang gampang kehisap energi negatif",
-        friend: "Jinger",
-        enemy: "-"
+        q: "Temen bilang kamu kayak...",
+        o: ['Batu', 'Drama', 'Robot', 'Sponge']
       },
       {
-        name: "Onyun",
-        personality: "Overprotective, aktif, gampang kesel kalau kamu disakiti",
-        ability: "Loyal Shield",
-        cocok: "Orang yang butuh dibela dan dijaga",
-        friend: "Potatoad",
-        enemy: "Banion"
+        q: "Kamu sering disuruh...",
+        o: ['Tenangin diri', 'Gausah baper', 'Jangan kerja mulu', 'Gausah terlalu mikir']
       },
       {
-        name: "Bitty",
-        personality: "Ceria, penuh harapan, suaranya kecil tapi menghangatkan hati",
-        ability: "Hope Spark",
-        cocok: "Orang yang suka nyerah dan butuh semangat kecil",
-        friend: "Kroot",
-        enemy: "Jinger"
+        q: "Kamu paling takut jadi orang yang...",
+        o: ['Gampang dipengaruhi', 'Cengeng', 'Gak produktif', 'Kelewat sensitif']
       },
       {
-        name: "Jinger",
-        personality: "Dewasa, agak sinis, ngajarin kamu untuk realistis dan kuat",
-        ability: "Wise Fire",
-        cocok: "Orang yang terlalu dreamy dan butuh realita",
-        friend: "Mubii",
-        enemy: "Bitty"
+        q: "Emosi yang paling sering kamu tahan:",
+        o: ['Takut', 'Sedih', 'Capek', 'Marah']
+      },
+      {
+        q: "Apa yang paling bikin kamu lelah?",
+        o: ['Ketidakpastian hidup', 'Tekanan emosional', 'Kewajiban nonstop', 'Lingkungan yang penuh drama']
+      },
+      {
+        q: "Kamu lebih milih siapa jadi temanmu?",
+        o: ['Yang bisa diandalkan saat chaos', 'Yang bikin lega tiap ketemu', 'Yang ngajak healing mulu', 'Yang kalem dan gak cerewet']
+      },
+      {
+        q: "Kamu gak suka orang yang...",
+        o: ['Terlalu banyak omong', 'Nangis mulu', 'Santai banget', 'Drama queen']
+      },
+      {
+        q: "Gaya kamu waktu healing...",
+        o: ['Menata ulang jadwal', 'Curhat + nangis', 'Turu', 'Detox sosmed']
+      },
+      {
+        q: "Kalau ditinggal sendiri kamu...",
+        o: ['Cemas', 'Nangis', 'Produktif', 'Nyaman']
+      },
+      {
+        q: "Salah satu pelajaran terberat...",
+        o: ['Mempercayai proses', 'Menerima rasa sakit', 'Belajar berhenti', 'Menjaga diri sendiri']
+      },
+      {
+        q: "Apa yang paling kamu pengen punya saat ini?",
+        o: ['Keyakinan diri', 'Pelukan hangat', 'Waktu kosong', 'Energi stabil']
+      },
+      {
+        q: "Kalau kamu adalah hewan...",
+        o: ['Kura-kura', 'Koala', 'Semut', 'Kucing']
+      },
+      {
+        q: "Saat semuanya chaos, kamu butuh...",
+        o: ['Grounding', 'Menangis', 'Tidur', 'Detox']
       }
     ];
 
-    let currentQ = 0;
-    let answers = [];
+    const resultCounter = {
+      Kroot: 0,
+      Banion: 0,
+      Potatoad: 0,
+      Mubii: 0,
+      Onyun: 0,
+      Bitty: 0,
+      Jinger: 0
+    };
 
-    const quiz = document.getElementById("quiz");
+    const answerMap = ['Kroot', 'Banion', 'Potatoad', 'Mubii'];
+
+    let current = 0;
+    const quizDiv = document.getElementById('quiz');
+    const resultDiv = document.getElementById('result');
 
     function renderQuestion() {
-      const q = questions[currentQ];
-      quiz.innerHTML = `<h2>${q.q}</h2>` +
-        q.o.map((opt, i) => `<button class='option-button' onclick='answer(${i})'>${opt}</button>`).join("");
-    }
+      if (current >= questions.length) return showResult();
 
-    function answer(i) {
-      answers.push(i);
-      currentQ++;
-      if (currentQ < questions.length) {
-        renderQuestion();
-      } else {
-        showResult();
-      }
-    }
-
-    function showResult() {
-      const score = Array(spirits.length).fill(0);
-      answers.forEach((a, idx) => {
-        score[a % spirits.length]++;
-      });
-      const max = Math.max(...score);
-      const spirit = spirits[score.indexOf(max)];
-
-      quiz.innerHTML = `
-        <h2>Spirit Veggie Kamu: ${spirit.name}</h2>
-        <div class='result'>
-          <p><strong>Nama:</strong> ${spirit.name}</p>
-          <p><strong>Personality:</strong> ${spirit.personality}</p>
-          <p><strong>Ability:</strong> ${spirit.ability}</p>
-          <p><strong>Cocok untuk:</strong> ${spirit.cocok}</p>
-          <p><strong>Grounding Friend:</strong> ${spirit.friend}</p>
-          <p><strong>Enemies Spirit:</strong> ${spirit.enemy}</p>
+      const q = questions[current];
+      quizDiv.innerHTML = `
+        <div class="question">
+          <h2>${q.q}</h2>
+          <div class="options">
+            ${q.o.map((opt, i) => `<button onclick="select(${i})">${opt}</button>`).join('')}
+          </div>
         </div>
       `;
     }
+
+    function select(i) {
+      const spirit = answerMap[i];
+      resultCounter[spirit] += 1;
+      current++;
+      renderQuestion();
+    }
+
+    function showResult() {
+      const topSpirit = Object.keys(resultCounter).reduce((a, b) => resultCounter[a] > resultCounter[b] ? a : b);
+      const s = spiritVeggies[topSpirit];
+      quizDiv.innerHTML = '';
+      resultDiv.innerHTML = `
+        <h2>Spirit Veggie kamu adalah: ${s.name} 🌱</h2>
+        <p><strong>Personality:</strong> ${s.personality}</p>
+        <p><strong>Ability:</strong> ${s.ability}</p>
+        <p><strong>Cocok untuk:</strong> ${s.for}</p>
+        <p><strong>Grounding Friend:</strong> ${s.grounding}</p>
+        <p><strong>Enemies Spirit:</strong> ${s.enemy}</p>
+      `;
+      resultDiv.style.display = 'block';
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
 
     renderQuestion();
   </script>
